@@ -1,0 +1,75 @@
+{% extends 'base.html' %} {% block title %} اضافة مكاتبة{% endblock %} {% block
+contentbody %}
+<main>
+  <p class="mainTitle">اضافة الحاق</p>
+  <form action="/add-answer/{{paper.id}}" method="POST" id="testForm">
+    <div class="createPaperForm">
+      <div class="inputWrapper">
+        <div class="createInput">
+          <label for="fileName">اسم الملف :</label>
+          <select
+            id="fileName"
+            name="fileName"
+            required
+            onchange="handelSelector()"
+          >
+            {% for category, categoryItems in fileNames%} {% if category %}
+            <optgroup label="{{category}}">
+              {% for item in categoryItems %}
+              <option value="{{item}}">{{item}}</option>
+              {% endfor %}
+            </optgroup>
+            {% else %} {% for item in categoryItems %}
+            <option value="{{item}}">{{item}}</option>
+            {% endfor %} {% endif %} {% endfor %}
+          </select>
+        </div>
+        <div class="createInput">
+          <label for="category">اسم القسم :</label>
+          <select id="category" name="category">
+            {% for category in categories %}
+            <option value="{{category}}">{{category}}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="inputWrapper">
+        <div class="createInput">
+          <label for="outgoingNum">رقم الصادر :</label>
+          <input type="text" id="outgoingNum" name="outgoingNum" />
+        </div>
+
+        <div class="createInput">
+          <label for="senderName">جهة الصدور :</label>
+          <input type="text" id="senderName" name="senderName" />
+        </div>
+      </div>
+      <div class="inputWrapper">
+        <div class="createInput">
+          <label for="incomingNum">رقم الوارد :</label>
+          <input type="text" id="incomingNum" name="incomingNum" />
+        </div>
+        <div class="createInput">
+          <label for="receiver">جهة الورود :</label>
+          <input type="text" id="receiver" name="receiver" />
+        </div>
+      </div>
+      <div class="textAreaWrapper">
+        <div class="textAreaContent">
+          <label for="subject">الموضوع :</label>
+          <textarea id="subject" name="subject"></textarea>
+        </div>
+      </div>
+
+      <div class="createInput">
+        <label for="archiveNumber">رقم التسديد :</label>
+        <input type="text" id="archiveNumber" name="archiveNumber" />
+      </div>
+      <div class="formButtons">
+        <input type="submit" value="اضافة" />
+        <button id="goToMainPage">الصفحة الرئيسية</button>
+      </div>
+    </div>
+  </form>
+</main>
+{% endblock %}

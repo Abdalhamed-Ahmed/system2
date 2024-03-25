@@ -1,0 +1,12 @@
+1- fileName:string   ex: حقوق الانسان 
+2- category:string   ex: مباحث
+3- outgoingNum:string (رقم الصادر) ex:1547/أ/ب
+4- date:string	ex:15/11/2023
+5- incomingNum:string (رقم الوارد) ex:1245/2
+6- senderName:string (اسم الجهة الي باعتة المكاتبة زي مثلا حقوق الانسان) ex:حقوق الانسان
+7- subject:string (الموضوع)	ex:شكوى المواطن فلان الفلانى
+8- receiver:string[] (الجهة الي هتستلم المكاتبة ومكن يبقوا اكتر من جهة) ex:["مباحث"]
+9- archiveNumber?(not required): {number:string,date:string} (رقم الارشيف في حالة ان المكاتبة مقفولة وبيسموها غير مطلوب الرد والي مفتوحة لسا بيسموها مطلوب الرد) ex:{number:"1234/5",date:"1/12/2023"}
+10-year:string (السنة علشان فيه فيلتر بالسنين) ex: 2023
+
+(filter) 1 2 9

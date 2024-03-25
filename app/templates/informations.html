@@ -1,0 +1,192 @@
+{% extends 'base.html' %} {% block title %}مركز الرئاسة{% endblock %} {% block
+contentbody %}
+<main>
+  <p class="mainTitle">نظام متابعة المكاتبات لمديرية امن القاهرة</p>
+  <div class="informationBtns">
+    <a href="/create">
+      <button style="font-size: 20px">اضافة مكاتبة</button>
+    </a>
+    <a href="/">
+      <button style="font-size: 20px">الصفحة الرئيسية</button>
+    </a>
+  </div>
+  <form class="filters">
+    <div class="fileFilter">
+      <label for="fileNameSelector">اختر الملف</label>
+      <select name="fileName" id="fileNameSelector">
+        <option value=""></option>
+        <option value="مدة ميعاد">مدة ميعاد</option>
+        <option value="اعمال لجان">اعمال لجان</option>
+        <option value="حقوق انسان">حقوق انسان</option>
+        <option value="اعلام وعلاقات">اعلام وعلاقات</option>
+        <option value="التفتيش والرقابة">التفتيش والرقابة</option>
+        <option value="الشئون القانونية">الشئون القانونية</option>
+        <option value="المتابعة الخارجية">المتابعة الخارجية</option>
+        <option value="ملفات خاصة">ملفات خاصة</option>
+        <option value="توجيهات السيد الوزير">توجيهات السيد الوزير</option>
+        <option value="قطاع الامن">قطاع الامن</option>
+        <option value="مفتش الداخلية">مفتش الداخلية</option>
+        <option value="نائب المدير">نائب المدير</option>
+        <optgroup label="جهات المديرية">
+          <option value="الحماية المدنية">الحماية المدنية</option>
+          <option value="الرخص">الرخص</option>
+          <option value="الرقابة">الرقابة</option>
+          <option value="العلاقات داخلى">العلاقات داخلى</option>
+          <option value="العمليات">العمليات</option>
+          <option value="المالية داخلى">المالية داخلى</option>
+          <option value="المباحث داخلى">المباحث داخلى</option>
+          <option value="المرافق داخلى">المرافق داخلى</option>
+          <option value="المرور داخلى">المرور داخلى</option>
+          <option value="التحقيقات">التحقيقات</option>
+          <option value="المركبات">المركبات</option>
+          <option value="النجدة">النجدة</option>
+          <option value="تقدير جهود">تقدير جهود</option>
+          <option value="جهات داخلى">جهات داخلى</option>
+          <option value="حراسة المنشات">حراسة المنشات</option>
+          <option value="شئون الافراد">شئون الافراد</option>
+          <option value="شئون الظباط">شئون الظباط</option>
+          <option value="الغرب داخلى">الغرب داخلى</option>
+          <option value="الجنوب داخلى">الجنوب داخلى</option>
+          <option value="الشرق داخلى">الشرق داخلى</option>
+          <option value="الشمال داخلى">الشمال داخلى</option>
+          <option value="العاصمة الادارية الجديدة">
+            العاصمة الادارية الجديدة
+          </option>
+          <option value="القاهرة الجديدة">القاهرة الجديدة</option>
+          <option value="قوات الامن">قوات الامن</option>
+          <option value="مساعد المدير للامن">مساعد المدير للامن</option>
+        </optgroup>
+        <optgroup label="وزير">
+          <option value="مجلس النواب">مجلس النواب</option>
+          <option value="مجلس الوزراء">مجلس الوزراء</option>
+          <option value="المكتب الفنى">المكتب الفنى</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="receiverNumberFilter">
+      <label for="receiverNumberFilter">الاستعلام برقم الصادر</label>
+      <input
+        type="text"
+        id="receiverNumberFilter"
+        name="receiverNumberFilter"
+      />
+    </div>
+    <div class="receiverNameFilter">
+      <label for="receiverNameFilter">الاستعلام بجهة التصدير</label>
+      <input type="text" id="receiverNameFilter" name="receiverNameFilter" />
+    </div>
+    <div class="senderNumberFilter">
+      <label for="senderNumberFilter">الاستعلام برقم الوارد</label>
+      <input type="text" id="senderNumberFilter" name="senderNumberFilter" />
+    </div>
+    <div class=" ">
+      <label for="senderNameFilter">الاستعلام بجهة الورود</label>
+      <input type="text" id="senderNameFilter" name="senderNameFilter" />
+    </div>
+    <div class="subjectFilter">
+      <label for="subjectFilter">الاستعلام بجزء من موضوع المكاتبة</label>
+      <input type="text" id="subjectFilter" name="subjectFilter" />
+    </div>
+
+    <div class="typeFilter">
+      <div>
+        <label for="type1">مطلوب الرد</label>
+        <input type="radio" value="continue" name="archiveNumber" id="type1" />
+      </div>
+      <div>
+        <label for="type2">تم الرد</label>
+        <input type="radio" name="archiveNumber" value="finished" id="type2" />
+      </div>
+      <div>
+        <label for="type3">الجميع</label>
+        <input type="radio" name="archiveNumber" value="" id="type3" checked />
+      </div>
+    </div>
+    <div class="fileFilter">
+      <input style="font-size: 18px" type="submit" value="بحث" />
+    </div>
+  </form>
+
+  <table style="font-size: 22px">
+    <thead>
+      <tr>
+        <th style="width: max-content">رقم</th>
+        <th>رقم الصادر</th>
+        <th>التاريخ</th>
+        <th>رقم الوارد</th>
+        <th>جهة الورود</th>
+        <th style="width: min(600px, auto)">مضمون الموضوع</th>
+        <th>جهة التصدير</th>
+        <th>التسديد</th>
+      </tr>
+    </thead>
+    {% for category in categories %}
+    <tr>
+      <td colspan="8" class="category" style="font-size: 22px">{{category}}</td>
+    </tr>
+
+    {% for paper in papers %} {% if paper.category[paper.paperLength-1] ==
+    category %}
+    <tbody class="paperGroup">
+      {% for i in range(0,paper.paperLength)%}
+      <tr name="{{paper.id}}" class="rowData">
+        {%if i == 0 %}
+        <td rowspan="{{paper.paperLength}}">{{paper.id}}</td>
+        <td class="firstTableCell">{{paper.outgoingNum[i]}}</td>
+        <td class="firstTableCell">{{paper.date[i]}}</td>
+        <td class="firstTableCell">{{paper.incomingNum[i]}}</td>
+        <td class="firstTableCell">{{paper.senderName[i]}}</td>
+        <td class="firstTableCell">{{paper.subject[i]}}</td>
+        <td class="firstTableCell">
+          <p>{{paper.receiver[i]}}</p>
+        </td>
+        <td class="firstTableCell" rowspan="{{paper.paperLength}}">
+          {{paper.archiveNumber}}
+          <div class="updateBtn" id="updateBtn{{paper.id}}">
+            <button
+              onclick="location.href='/update/{{paper.id}}'"
+              style="padding: 4px 12px; border-radius: 4px; border: none"
+            >
+              تعديل المكاتبة
+            </button>
+            <button onclick="location.href='/add-answer/{{paper.id}}'">
+              اضافة الحاق
+            </button>
+          </div>
+        </td>
+        {% else%}
+        <td class="middleCell">{{paper.outgoingNum[i]}}</td>
+        <td class="middleCell">{{paper.date[i]}}</td>
+        <td class="middleCell">{{paper.incomingNum[i]}}</td>
+        <td class="middleCell">{{paper.senderName[i]}}</td>
+        <td class="middleCell">{{paper.subject[i]}}</td>
+        <td class="middleCell">
+          <p>{{paper.receiver[i]}}</p>
+        </td>
+        {%endif%}
+      </tr>
+      {%endfor%}
+    </tbody>
+    {% endif %} {% endfor %} {% endfor %}
+  </table>
+  <script>
+    const elements = document.getElementsByClassName("rowData");
+    const changeBackground = (name) => {
+      let elements = document.getElementsByClassName("rowData");
+      for (let x = 0; x < elements.length; x++) {
+        if (elements[x].getAttribute("name") == name) {
+          elements[x].classList.toggle("activeRow");
+        } else {
+          elements[x].classList.remove("activeRow");
+        }
+      }
+    };
+
+    for (let x = 0; x < elements.length; x++) {
+      elements[x].addEventListener("click", () => {
+        changeBackground(elements[x].getAttribute("name"));
+      });
+    }
+  </script>
+</main>
+{% endblock %}

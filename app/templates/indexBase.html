@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{% block title %} {% endblock %}</title>
+    <style>
+      @font-face {
+        font-family: almarai;
+        src: url("static/fonts/Almarai-Regular.ttf");
+      }
+      @font-face {
+        font-family: almarai;
+        src: url("static/fonts/Almarai-Bold.ttf");
+      }
+      * {
+        box-sizing: border-box;
+        font-family: almarai !important;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .navbar {
+        padding: 0.5rem 1rem;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: transparent;
+        box-sizing: border-box;
+        position: fixed;
+      }
+      .navbar .mainText {
+        height: 200px;
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+      }
+      .navbar p {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 5px;
+      }
+      .navbar img {
+        width: 200px;
+      }
+      .mainTitle {
+        text-align: center;
+        font-size: 40px;
+        font-weight: bold;
+        color: #1d4ed8;
+        margin: 1rem 0;
+      }
+
+      .indexLayout {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        background: url("static/images/main.jpg") no-repeat center center;
+        background-size: cover;
+        position: relative;
+      }
+      .indexLayout::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(256, 256, 256, 0.5);
+        z-index: 10;
+      }
+      .chooseOne {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 80px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 20;
+      }
+      .chooseOne button {
+        padding: 25px 0px;
+        font-size: x-large;
+        width: 450px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="mainText">
+        <p>مديرية امن القاهرة</p>
+        <p>مركز الرئاسة</p>
+        <p>مكتب المتابعة</p>
+      </div>
+      <div class="logo">
+        <img
+          src="{{url_for('static', filename='images/logo.png')}}"
+          alt="logo"
+        />
+      </div>
+    </nav>
+    {% block contentbody %} {% endblock %}
+    <script>
+      document.getElementById("goToMainPage").addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location = "/";
+        console.log(window);
+      });
+    </script>
+  </body>
+</html>

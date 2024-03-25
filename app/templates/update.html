@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>تعديل المكاتبة</title>
+    <style>
+      @font-face {
+        font-family: almarai;
+        src: url("{{url_for('static', filename='fonts/Almarai-regular.ttf')}}");
+      }
+      @font-face {
+        font-family: almarai;
+        src: url("static/fonts/Almarai-Bold.ttf");
+      }
+      * {
+        box-sizing: border-box;
+        font-family: almarai !important;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .navbar {
+        padding: 0.5rem 1rem;
+        top: 0;
+        left: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: transparent;
+        box-sizing: border-box;
+      }
+      .navbar .mainText {
+        height: 140px;
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+      }
+      .navbar p {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 5px;
+      }
+      .navbar img {
+        width: 140px;
+      }
+      .mainTitle {
+        text-align: center;
+        font-size: 40px;
+        font-weight: bold;
+        color: #1d4ed8;
+        margin: 1rem 0;
+      }
+      table {
+        width: 95%;
+        text-align: center;
+        padding: 0 20px;
+        margin: 2rem auto;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      table thead {
+        background-color: #525252;
+      }
+      table th,
+      table td {
+        padding: 10px;
+      }
+      button {
+        padding: 10px 20px;
+      }
+      .createPaperForm {
+        width: min-content;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        /* padding: 20px 100px; */
+        gap: 30px;
+        margin: auto;
+      }
+      .openModal {
+        display: flex !important;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="mainText">
+        <p>مديرية امن القاهرة</p>
+        <p>مركز الرئاسة</p>
+        <p>مكتب المتابعة</p>
+      </div>
+      <div class="logo">
+        <img
+          src="{{url_for('static', filename='images/logo.png')}}"
+          alt="logo"
+        />
+      </div>
+    </nav>
+    <main>
+      <p class="mainTitle">تعديل الموضوع</p>
+      <div class="createPaperForm" style="width: 100%; padding: 0 20px">
+        <table style="margin: 0 auto; width: 100%">
+          <thead>
+            <tr>
+              <th style="width: 100px">اسم الملف</th>
+              <th>رقم الصادر</th>
+              <th>التاريخ</th>
+              <th>رقم الوارد</th>
+              <th>جهة الورود</th>
+              <th style="width: 600px">مضمون الموضوع</th>
+              <th>جهة التصدير</th>
+              <th>التسديد</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in range(0,paper.paperLength)%}
+            <tr class="rowData">
+              <td>{{paper.fileName[i]}}</td>
+              <td contenteditable>{{paper.outgoingNum[i]}}</td>
+              <td contenteditable>{{paper.date[i]}}</td>
+              <td contenteditable>{{paper.incomingNum[i]}}</td>
+              <td contenteditable>{{paper.senderName[i]}}</td>
+              <td contenteditable>{{paper.subject[i]}}</td>
+              <td contenteditable>{{paper.receiver[i]}}</td>
+              {% if i == paper.paperLength-1 %}
+              <td contenteditable>{{paper.archiveNumber}}</td>
+              {%else%}
+              <td></td>
+              {%endif%}
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
+        <div
+          class="formButtons"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 20px;
+          "
+        >
+          <button onclick="sendPaper()">تعديل</button>
+          <button id="goToMainPage">الصفحة الرئيسية</button>
+          <form
+            action="/delete/{{paper.id}}"
+            id="deletePaper"
+            method="POST"
+            style="display: none"
+          ></form>
+          <button
+            style="
+              background-color: red;
+              color: white;
+              border-color: red;
+              cursor: pointer;
+            "
+            onclick="document.getElementById('modal').classList.add('openModal')"
+          >
+            مسح المكاتبة
+          </button>
+        </div>
+      </div>
+      <div
+        class="modalContainer"
+        id="modal"
+        style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          box-sizing: border-box;
+          width: 100vw;
+          height: 100vh;
+          display: none;
+          align-items: center;
+          justify-content: center;
+          background-color: rgba(0, 0, 0, 0.4);
+        "
+      >
+        <div
+          class="modalBody"
+          style="
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            width: 40%;
+          "
+        >
+          <p style="font-size: 24px; margin: 0; margin-bottom: 20px">
+            هل انت متاكد من ازالة هذه المكاتبة ؟
+          </p>
+          <p style="font-size: 24px; margin: 0">
+            عند اتمام ازالة المكاتبة لا يمكنك ارجاع العملية
+          </p>
+          <div style="margin-top: 80px">
+            <button
+              style="
+                padding: 10px 20px;
+                font-size: 20px;
+                border-radius: 6px;
+                background-color: red;
+                border-color: red;
+                color: white;
+                margin-left: 20px;
+              "
+              form="deletePaper"
+            >
+              مسح المكاتبة
+            </button>
+            <button
+              style="padding: 10px 20px; font-size: 20px; border-radius: 6px"
+              onclick="document.getElementById('modal').classList.remove('openModal')"
+            >
+              تراجع
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      const sendPaper = () => {
+        const paper = {
+          id: "{{paper.id}}",
+          fileName: [],
+          date: [],
+          outgoingNum: [],
+          senderName: [],
+          incomingNum: [],
+          subject: [],
+          receiver: [],
+          archiveNumber: "",
+        };
+        const tableRows = document.getElementsByClassName("rowData");
+        for (let x = 0; x < tableRows.length; x++) {
+          paper.fileName.push(tableRows[x].children[0].innerText);
+          paper.outgoingNum.push(tableRows[x].children[1].innerText);
+          paper.date.push(tableRows[x].children[2].innerText);
+          paper.incomingNum.push(tableRows[x].children[3].innerText);
+          paper.senderName.push(tableRows[x].children[4].innerText);
+          paper.subject.push(tableRows[x].children[5].innerText);
+          paper.receiver.push(tableRows[x].children[6].innerText);
+        }
+        fetch("/updatePaperContent", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(paper),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            window.location = "/information";
+          });
+      };
+    </script>
+  </body>
+</html>

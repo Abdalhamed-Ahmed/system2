@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{% block title %} {% endblock %}</title>
+    <style>
+      @font-face {
+        font-family: almarai;
+        src: url("{{url_for('static', filename='fonts/Almarai-regular.ttf')}}");
+      }
+      @font-face {
+        font-family: almarai;
+        src: url("static/fonts/Almarai-Bold.ttf");
+      }
+      * {
+        box-sizing: border-box;
+        font-family: almarai !important;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .navbar {
+        padding: 0.5rem 1rem;
+        top: 0;
+        left: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: transparent;
+        box-sizing: border-box;
+      }
+      .navbar .mainText {
+        height: 140px;
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+      }
+      .navbar p {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 5px;
+      }
+      .navbar img {
+        width: 140px;
+      }
+      .mainTitle {
+        text-align: center;
+        font-size: 40px;
+        font-weight: bold;
+        color: #1d4ed8;
+        margin: 1rem 0;
+      }
+      .yearFilter,
+      .fileFilter,
+      .typeFilter {
+        padding: 0 2rem;
+        font-size: 18px;
+        font-weight: bold;
+        display: flex;
+        justify-items: center;
+        align-items: center;
+      }
+      .yearFilter label,
+      .fileFilter label {
+        margin-left: 10px;
+      }
+      .filters {
+        display: flex;
+      }
+      .typeFilter {
+        gap: 10px;
+      }
+      table {
+        width: 95%;
+        text-align: center;
+        padding: 0 20px;
+        margin: 2rem auto;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      table thead {
+        background-color: #525252;
+      }
+      table thead th {
+        padding: 10px;
+      }
+      .category {
+        padding: 10px;
+        font-size: 18px;
+        background-color: #172554;
+        color: white;
+      }
+      .indexLayout {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        background: url("static/images/main.jpg") no-repeat center center;
+        background-size: cover;
+        position: relative;
+      }
+      .indexLayout::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(256, 256, 256, 0.5);
+        z-index: 10;
+      }
+      .chooseOne {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 80px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 20;
+      }
+      .chooseOne button {
+        padding: 25px 0px;
+        font-size: x-large;
+        width: 450px;
+      }
+      .informationBtns {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        margin-bottom: 20px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .informationBtns button {
+        padding: 10px 20px;
+      }
+      .createPaperForm {
+        width: min-content;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        /* padding: 20px 100px; */
+        gap: 30px;
+        margin: auto;
+      }
+      .createPaperForm form {
+        width: min-content;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        gap: 30px;
+        margin: auto;
+      }
+      .createPaperForm label {
+        font-size: 20px;
+        width: 130px;
+        font-weight: bold;
+      }
+      .createPaperForm .createInput {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .createPaperForm .textAreaWrapper {
+        width: 100%;
+      }
+      .createPaperForm .textAreaWrapper .textAreaContent {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        width: 100%;
+        /* margin-bottom: 20px; */
+      }
+      .createPaperForm .textAreaWrapper textarea {
+        flex: 1;
+      }
+      .createPaperForm .textAreaWrapper ul {
+        margin: 0;
+      }
+      .createPaperForm .createInput input {
+        width: 400px;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 220%;
+        padding: 0 5px !important;
+      }
+      .createPaperForm .createInput select {
+        height: 50px;
+        width: 400px;
+        font-size: 20px;
+        padding: 0 5px;
+        font-weight: bold;
+      }
+      .createPaperForm input[type="submit"],
+      .createPaperForm button {
+        padding: 10px 20px;
+        font-size: 20px;
+        width: 140px;
+        display: inline-block;
+        width: max-content;
+      }
+      .createPaperForm input[type="submit"] {
+        margin-left: 20px;
+      }
+      .createPaperForm textarea {
+        font-size: 20px;
+        font-weight: bold;
+        padding: 10px;
+        height: 200px;
+      }
+      .createPaperForm .formButtons {
+        /* margin-top: 20px; */
+      }
+      .inputWrapper {
+        display: flex;
+        width: 100%;
+        gap: 5rem;
+        justify-content: center;
+      }
+      /* .rowData {
+        position: relative;
+      } */
+
+      .openModal {
+        display: flex !important;
+      }
+      td {
+        border-top: none;
+        border-bottom: none;
+      }
+      .paperGroup {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        position: relative;
+      }
+      /* .firstTableCell {
+        border-bottom: transparent;
+      } */
+      /* .middleCell {
+        border-bottom: transparent;
+        border-top: transparent;
+      } */
+      /* .lastCell {
+        border-top: transparent;
+      } */
+      .activeRow {
+        background-color: #ddd;
+      }
+      .updateBtn {
+        position: absolute;
+        top: 100%;
+        left: 100%;
+        transform: translateX(-110%);
+        width: max-content;
+        display: none;
+      }
+      .activeRow .updateBtn {
+        display: block;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="mainText">
+        <p>مديرية امن القاهرة</p>
+        <p>مركز الرئاسة</p>
+        <p>مكتب المتابعة</p>
+      </div>
+      <div class="logo">
+        <img
+          src="{{url_for('static', filename='images/logo.png')}}"
+          alt="logo"
+        />
+      </div>
+    </nav>
+    {% block contentbody %} {% endblock %}
+    <script>
+      document.getElementById("goToMainPage").addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location = "/";
+        console.log(window);
+      });
+
+      const handelRowClick = (paperId) => {
+        window.location = "/update/" + paperId;
+      };
+
+      function noItems(paperName) {
+        const wrapperDiv = document.querySelector(".textAreaWrapper ul");
+        const noItemsText = `
+        <li>
+          <p>لا توجد اي شكوى باسم ${paperName}</p>
+          </li>
+        `;
+        wrapperDiv.innerHTML = noItemsText;
+      }
+
+      function itemsFound(papersArray) {
+        const wrapperDiv = document.querySelector(".textAreaWrapper ul");
+
+        let papersData = ``;
+        papersArray.forEach((item) => {
+          papersData += `
+          <li>
+            <p style="color:red">توجد شكوى فى ملف <b>${item.fileName[0]}</b> برقم صادر : <b>${item.outgoingNum[0]} </b></p>
+            </li>
+          `;
+          wrapperDiv.innerHTML = papersData;
+        });
+      }
+
+      function handelSelector() {
+        const element = document.querySelector("#fileName");
+        if (element.value == "حقوق انسان") {
+          document.querySelector("#outgoingNum").value = "/أ/ح";
+          document.querySelector("#receiver").value = "حقوق انسان";
+          document.querySelector("#subject").value = "بشان شكوى المواطن / ";
+        } else if (element.value == "اعلام وعلاقات") {
+          document.querySelector("#outgoingNum").value = "/أ/ب";
+        } else if (
+          element.value == "المكتب الفنى" ||
+          element.value == "مجلس الوزراء" ||
+          element.value == "مجلس النواب"
+        ) {
+          document.querySelector("#outgoingNum").value = "/أ/أ";
+        } else {
+          document.querySelector("#outgoingNum").value = "";
+          document.querySelector("#senderName").value = "";
+          document.querySelector("#incomingNum").value = "";
+          document.querySelector("#subject").value = "";
+        }
+      }
+
+      function searchByName(e) {
+        const fileName = document.getElementById("fileName").value;
+        const name = document
+          .getElementById("subject")
+          .value.split("/")[1]
+          .trim()
+          .split(" ")
+          .splice(0, 3)
+          .join(" ");
+        if (
+          (fileName == "حقوق انسان" || fileName == "التفتيش والرقابة") &&
+          name.split(" ").length == 3
+        ) {
+          fetch("/searchByName", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name: name }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data.papers.length);
+              if (data.papers.length) {
+                itemsFound(data.papers);
+                console.log("found");
+              } else {
+                console.log("notfound");
+                noItems(name);
+              }
+            });
+        }
+      }
+      document
+        .getElementsByClassName("subjectSearch")[0]
+        .addEventListener("blur", searchByName);
+    </script>
+  </body>
+</html>
